@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Todo App</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
+
+</head>
+
+<body>
+
+    <h1>🚀 My Todo App</h1>
+
+    <!-- ADD TASK -->
+
+    <form action="/add" method="post" class="input-area">
+
+        <input
+            type="text"
+            name="task"
+            placeholder="Enter task"
+        >
+
+        <input
+            type="date"
+            name="due_date"
+        >
+
+        <button type="submit">
+            Add
+        </button>
+
+    </form>
+
+    <!-- SEARCH -->
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search tasks..."
+        onkeyup="searchTasks()"
+    >
+
+    <!-- TASK LIST -->
+
+    {% for todo in todos %}
+
+    <div class="todo-item">
+
+        <div class="task-left">
+
+            <!-- TOGGLE -->
+
+            <form action="/toggle/{{ todo[0] }}" method="post">
+
+                <button class="check-btn">
+
+                    {% if todo[2] == 1 %}
+                        ✅
+                    {% else %}
+                        ⬜
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+            <!-- TASK TEXT -->
+
+            <div>
+
+                <span>
+
+                    {% if todo[2] == 1 %}
+                        <s>{{ todo[1] }}</s>
+                    {% else %}
+                        {{ todo[1] }}
+                    {% endif %}
+
+                </span>
+
+                <br>
+
+                <small>
+                    📅 {{ todo[3] }}
+                </small>
+
+            </div>
+
+        </div>
+
+        <!-- DELETE -->
+
+        <form action="/delete/{{ todo[0] }}" method="post">
+
+            <button class="delete-btn">
+                🗑️
+            </button>
+
+        </form>
+
+    </div>
+
+    {% endfor %}
+
+    <!-- SEARCH SCRIPT -->
+
+    <script>
+
+    function searchTasks() {
+
+        let input =
+            document.getElementById("searchInput");
+
+        let filter =
+            input.value.toLowerCase();
+
+        let tasks =
+            document.getElementsByClassName("todo-item");
+
+        for (let i = 0; i < tasks.length; i++) {
+
+            let text =
+                tasks[i].innerText.toLowerCase();
+
+            if (text.includes(filter)) {
+
+                tasks[i].style.display = "";
+
+            } else {
+
+                tasks[i].style.display = "none";
+
+            }
+
+        }
+
+    }
+
+    </script>
+
+</body>
+
+</html>
