@@ -1,41 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Todo App</title>
+    <title>Todo App</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
 </head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Todo App</title>
 
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
 
-    <div class="container">
+    <h1>🚀 My Todo App</h1>
 
-        <h1>My Todo App 🚀</h1>
+    <form action="/add" method="post">
 
-        <div class="input-section">
-            <input 
-                type="text" 
-                id="task-input" 
-                placeholder="Enter task"
-            >
+        <input
+            type="text"
+            name="task"
+            placeholder="Enter task"
+            required
+        >
 
-            <button onclick="addTodo()">
-                Add Todo
-            </button>
-        </div>
+        <button type="submit">
+            Add
+        </button>
 
-        <div id="todo-list"></div>
+    </form>
+
+    <hr>
+
+    {% for todo in todos %}
+
+    <div>
+
+        <p>{{ todo[1] }}</p>
+
+        <a href="/delete/{{ todo[0] }}">
+            Delete
+        </a>
 
     </div>
 
-    <script src="/static/script.js"></script>
+    <hr>
+
+    {% endfor %}
 
 </body>
+
 </html>
