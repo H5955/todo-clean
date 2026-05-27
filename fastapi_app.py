@@ -55,3 +55,4 @@ async def delete(todo_id: int):
     conn.commit()
 
     return RedirectResponse("/", status_code=303)
+
