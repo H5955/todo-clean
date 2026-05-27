@@ -34,12 +34,12 @@ async def home(request: Request):
     todos = cursor.fetchall()
 
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
-            "todos": todos
-        }
-    )
+    "index.html",
+    {
+        "request": request,
+        "todos": todos
+    }
+)
 
 
 # Add task
