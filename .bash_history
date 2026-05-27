@@ -1,93 +1,3 @@
-pkg update -y && pkg install golang -y
-pkg install golang -y
-go version
-termux-change-repo
-pkg update
-pkg install golang -y
-go version
-go mod init grpc-server
-go get google.golang.org/grpc
-go run main.go
-pkill -f termux
-cloudflared tunnel --url tcp://localhost:50051
-pkg install cloudflared -y
-cloudflared --version
-cloudflared tunnel --url tcp://localhost:50051
-clear
-pkg install grpcurl -y
-grpcurl characteristic-roland-instance-wake.trycloudflare.com:443 list
-cloudflared access tcp --hostname characteristic-roland-instance-wake.trycloudflare.com --url localhost:6000
-grpcurl localhost:6000 list
-grpcurl -plaintext localhost:6000 list
-nano main.go
-go run main.go
-grpcurl -plaintext localhost:6000 list
-cd ~/grpc-server
-go run main.go
-cd ~/grpc-server
-go run main.go
-grpcurl -plaintext -d '{"name":"Husen"}' localhost:50051 hello.Greeter/SayHello
-grpcurl -plaintext -d '{"name":"Test"}' localhost:50051 hello.Greeter/SayHello
-ps aux | grep -E "go|cloudflared"
-ss -tulnp | grep 50051
-go run main.go
-pkill -f main.go
-go run main.go
-ss -tulnp | grep 50051
-pkg install iproute2
-ss -tulnp | grep 50051
-pkill -9 -f main.go
-pkill -9 -f go
-go run main.go
-grpcurl -plaintext localhost:50052 list
-go run main.go
-pkill -9 -f main.go
-pkill -9 -f go
-go run main.go
-pkill -9 -f main.go
-pkill -9 -f go
-grpcurl -plaintext 127.0.0.1:50052 list
-nano main.go
-go run main.go
-nohup go run main.go &
-grpcurl -plaintext 127.0.0.1:50052 list
-cd ~/grpc-server
-go run main.go
-ps aux | grep go
-go run main.go
-nano main.go
-pkill go
-go run main.go
-cat go.mod
-nano main.go
-go run main.go
-pkill -f main.go
-nano main.go
-go run main.go
-pkill -9 -f main.go
-pkill -9 -f go
-go run main.go
-pkill -9 -f main.go
-pkill -9 -f go
-go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
-export PATH=$PATH:$(go env GOPATH)/bin
-go run main.go
-grpcurl -plaintext localhost:50052 list
-go run main.go
-nohup go run main.go &
-grpcurl -plaintext 127.0.0.1:50052 list
-nano main.go
-go mod tidy
-nohup go run main.go &
-grpcurl -plaintext 127.0.0.1:50052 list
-[1]+ Exit 1
-go run main.go
-pkill -9 -f go
-go run main.go
-cloudflared access tcp --hostname characteristic-roland-instance-wake.trycloudflare.com --url localhost:6000
-grpcurl -plaintext localhost:6000 list
-grpcurl -plaintext localhost:6000 describe grpc.reflection.v1alpha.ServerReflection
-pkg install protobuf -y
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 export PATH=$PATH:~/go/bin
@@ -497,4 +407,94 @@ python -m http.server 8000
 uvicorn fastapi_app:app --host 0.0.0.0 --port 5000 --reload
 uvicorn fastapi_app:app --host 0.0.0.0 --port 8080 --reload
 python -m http.server 8000
+exit
+uvicorn fastapi_app:app --host 0.0.0.0 --port 5000
+python fastapi_app.py
+uvicorn fastapi_app:app --reload --host 0.0.0.0 --port 8000
+uvicorn fastapi_app:app --host 0.0.0.0 --port 10000
+uvicorn fastapi_app:app --host 0.0.0.0 --port ${PORT:-8000}
+uvicorn fastapi_app:app --host 0.0.0.0 --port $PORT
+nano fastapi_app.py
+git add .
+git commit -m "Fix FastAPI app"
+git push
+git add .
+git commit -m "Fix FastAPI error"
+git push
+git remote add origin https://github.com/H5955/todo-clean.git
+git push -u origin master
+nano fastapi_app.py
+git add .
+git commit -m "Fix template dict"
+git push
+nano fastapi_app.py
+git add .
+git commit -m "Replace broken app"
+git push
+main.py
+nano fastapi_app.py
+git add .
+git commit -m "Fix template response"
+git push
+nano fastapi_app.py
+git add .
+git commit -m "Fix FastAPI app"
+git push
+nano fastapi_app.py
+git add .
+git commit -m "Fix TemplateResponse order"
+git push
+cat fastapi_app.py
+ls templates
+git add .
+git commit -m "Force redeploy"
+git push
+touch fastapi_app.py
+git add .
+git commit -m "Redeploy app"
+git push
+git add .
+git commit -m "Force redeploy"
+git push
+touch fastapi_app.py
+git add .
+git commit -m "Redeploy app"
+git push
+nano fastapi_app.py
+git add .
+git commit -m "Real redeploy"
+git push
+cat templates/index.html
+nano index.html
+git add .
+git commit -m "Fix index template"
+git push
+ls *.py
+cat app.py
+rm app.py
+git add .
+git commit -m "Remove old Flask app"
+git push
+Procfile
+nano Procfile
+git add .
+git commit -m "Add Procfile"
+git push
+nano Procfile
+ls
+mkdir clean-todo
+cd clean-todo
+mkdir templates
+mkdir static
+nano fastapi_app.py
+nano templates/index.html
+nano requirements.txt
+nano Procfile
+git init
+git add .
+git commit -m "Clean Todo App"
+clean-todo
+git remote add origin https://github.com/H5955/clean-todo.git
+git branch -M main
+git push -u origin main
 exit

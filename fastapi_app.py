@@ -6,13 +6,13 @@ import sqlite3
 
 app = FastAPI()
 
-# Static folder
+# Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Templates folder
+# Templates
 templates = Jinja2Templates(directory="templates")
 
-# Database setup
+# Database
 conn = sqlite3.connect("todos.db", check_same_thread=False)
 cursor = conn.cursor()
 
@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS todos (
     task TEXT
 )
 """)
-conn.commit()
 
+conn.commit()
 
 # Home page
 @app.get("/", response_class=HTMLResponse)
@@ -32,9 +32,9 @@ async def home(request: Request):
     todos = cursor.fetchall()
 
     return templates.TemplateResponse(
+        request,
         "index.html",
         {
-            "request": request,
             "todos": todos
         }
     )
@@ -42,17 +42,23 @@ async def home(request: Request):
 # Add task
 @app.post("/add")
 async def add(task: str = Form(...)):
-    cursor.execute("INSERT INTO todos (task) VALUES (?)", (task,))
+    cursor.execute(
+        "INSERT INTO todos (task) VALUES (?)",
+        (task,)
+    )
+
     conn.commit()
 
     return RedirectResponse("/", status_code=303)
-
 
 # Delete task
 @app.get("/delete/{todo_id}")
 async def delete(todo_id: int):
-    cursor.execute("DELETE FROM todos WHERE id = ?", (todo_id,))
+    cursor.execute(
+        "DELETE FROM todos WHERE id = ?",
+        (todo_id,)
+    )
+
     conn.commit()
 
     return RedirectResponse("/", status_code=303)
-
