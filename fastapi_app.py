@@ -39,7 +39,6 @@ async def home(request: Request):
         }
     )
 
-
 # Add task
 @app.post("/add")
 async def add(task: str = Form(...)):
