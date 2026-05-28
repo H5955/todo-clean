@@ -29,6 +29,12 @@
                 required
             >
 
+            <input
+                type="date"
+                name="due_date"
+                required
+            >
+
             <button type="submit">
                 Add
             </button>
@@ -54,77 +60,3 @@
 
                     <!-- Complete Button -->
                     <a href="/complete/{{ todo[0] }}">
-
-                        {% if todo[2] == 1 %}
-
-                        <input type="checkbox" checked>
-
-                        {% else %}
-
-                        <input type="checkbox">
-
-                        {% endif %}
-
-                    </a>
-
-                    <!-- Task Text -->
-                    <span>
-                        {{ todo[1] }}
-                    </span>
-
-                </div>
-
-                <div class="right">
-
-                    <!-- Delete Button -->
-                    <a href="/delete/{{ todo[0] }}">
-
-                        <button class="delete-btn">
-                            🗑
-                        </button>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-    </div>
-
-    <!-- JavaScript -->
-    <script>
-
-        function searchTasks() {
-
-            let input =
-                document.getElementById("searchInput")
-                .value
-                .toLowerCase();
-
-            let tasks =
-                document.getElementsByClassName("task-card");
-
-            for (let i = 0; i < tasks.length; i++) {
-
-                let text =
-                    tasks[i].innerText.toLowerCase();
-
-                if (text.includes(input)) {
-
-                    tasks[i].style.display = "";
-
-                } else {
-
-                    tasks[i].style.display = "none";
-                }
-            }
-        }
-
-    </script>
-
-</body>
-</html>
