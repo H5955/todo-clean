@@ -1,4 +1,3 @@
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 export PATH=$PATH:~/go/bin
 nano hello.proto
@@ -498,3 +497,4 @@ git remote add origin https://github.com/H5955/clean-todo.git
 git branch -M main
 git push -u origin main
 exit
+cloudflared tunnel --url http://127.0.0.1:8080
