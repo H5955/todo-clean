@@ -58,5 +58,88 @@
 
                 <div class="left">
 
-                    <!-- Complete Button -->
+                    <!-- Complete -->
                     <a href="/complete/{{ todo[0] }}">
+
+                        {% if todo[2] == 1 %}
+                        <input type="checkbox" checked>
+                        {% else %}
+                        <input type="checkbox">
+                        {% endif %}
+
+                    </a>
+
+                    <!-- Task -->
+                    <div>
+
+                        <span>
+                            {{ todo[1] }}
+                        </span>
+
+                        {% if todo|length > 3 %}
+
+                        <br>
+
+                        <small>
+                            📅 Due: {{ todo[3] }}
+                        </small>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <!-- Delete -->
+                <div class="right">
+
+                    <a href="/delete/{{ todo[0] }}">
+
+                        <button class="delete-btn">
+                            🗑
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function searchTasks() {
+
+            let input =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            let tasks =
+                document.getElementsByClassName("task-card");
+
+            for (let i = 0; i < tasks.length; i++) {
+
+                let text =
+                    tasks[i].innerText.toLowerCase();
+
+                if (text.includes(input)) {
+
+                    tasks[i].style.display = "";
+
+                } else {
+
+                    tasks[i].style.display = "none";
+                }
+            }
+        }
+
+    </script>
+
+</body>
+</html>
