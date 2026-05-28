@@ -5,11 +5,13 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Todo App</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet"
+          href="/static/style.css">
 
 </head>
 
@@ -20,8 +22,11 @@
         <h1>🚀 My Todo App</h1>
 
         <!-- Add Task Form -->
-        <form action="/add" method="post" class="task-form">
+        <form action="/add"
+              method="post"
+              class="task-form">
 
+            <!-- Task Input -->
             <input
                 type="text"
                 name="task"
@@ -29,19 +34,42 @@
                 required
             >
 
+            <!-- Due Date -->
             <input
                 type="date"
                 name="due_date"
                 required
             >
 
+            <!-- Category -->
+            <select name="category" required>
+
+                <option value="Study">
+                    Study
+                </option>
+
+                <option value="Work">
+                    Work
+                </option>
+
+                <option value="Personal">
+                    Personal
+                </option>
+
+                <option value="Coding">
+                    Coding
+                </option>
+
+            </select>
+
+            <!-- Add Button -->
             <button type="submit">
                 Add
             </button>
 
         </form>
 
-        <!-- Search Box -->
+        <!-- Search -->
         <input
             type="text"
             id="searchInput"
@@ -62,35 +90,44 @@
                     <a href="/complete/{{ todo[0] }}">
 
                         {% if todo[2] == 1 %}
+
                         <input type="checkbox" checked>
+
                         {% else %}
+
                         <input type="checkbox">
+
                         {% endif %}
 
                     </a>
 
-                    <!-- Task -->
+                    <!-- Task Details -->
                     <div>
 
+                        <!-- Task Name -->
                         <span>
                             {{ todo[1] }}
                         </span>
 
-                        {% if todo|length > 3 %}
-
                         <br>
 
+                        <!-- Due Date -->
                         <small>
                             📅 Due: {{ todo[3] }}
                         </small>
 
-                        {% endif %}
+                        <br>
+
+                        <!-- Category -->
+                        <small>
+                            🏷 {{ todo[4] }}
+                        </small>
 
                     </div>
 
                 </div>
 
-                <!-- Delete -->
+                <!-- Delete Button -->
                 <div class="right">
 
                     <a href="/delete/{{ todo[0] }}">
@@ -111,6 +148,7 @@
 
     </div>
 
+    <!-- Search Script -->
     <script>
 
         function searchTasks() {

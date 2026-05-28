@@ -21,7 +21,8 @@ cursor.execute("""
 CREATE TABLE IF NOT EXISTS todos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     task TEXT,
-    due_date TEXT
+    due_date TEXT,
+    category TEXT
 )
 """)
 
@@ -45,13 +46,29 @@ try:
 except:
     pass
 
+# Add category column safely
+try:
+    cursor.execute(
+        "ALTER TABLE todos ADD COLUMN category TEXT"
+    )
+    conn.commit()
+except:
+    pass
+
 
 # Home Page
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
 
     cursor.execute(
-        "SELECT id, task, completed, due_date FROM todos"
+        """
+        SELECT id,
+               task,
+               completed,
+               due_date,
+               category
+        FROM todos
+        """
     )
 
     todos = cursor.fetchall()
@@ -69,12 +86,17 @@ async def home(request: Request):
 @app.post("/add")
 async def add(
     task: str = Form(...),
-    due_date: str = Form(...)
+    due_date: str = Form(...),
+    category: str = Form(...)
 ):
 
     cursor.execute(
-        "INSERT INTO todos (task, due_date) VALUES (?, ?)",
-        (task, due_date)
+        """
+        INSERT INTO todos
+        (task, due_date, category)
+        VALUES (?, ?, ?)
+        """,
+        (task, due_date, category)
     )
 
     conn.commit()
