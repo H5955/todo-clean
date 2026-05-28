@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Todo App</title>
 
     <link rel="stylesheet" href="/static/style.css">
+
 </head>
 
 <body>
@@ -20,7 +25,7 @@
             <input
                 type="text"
                 name="task"
-                placeholder="Enter task"
+                placeholder="Enter a task..."
                 required
             >
 
@@ -30,7 +35,7 @@
 
         </form>
 
-        <!-- Search -->
+        <!-- Search Box -->
         <input
             type="text"
             id="searchInput"
@@ -43,12 +48,26 @@
 
             {% for todo in todos %}
 
-            <div class="task-card" onclick="toggleTask(this)">
+            <div class="task-card {% if todo[2] == 1 %}completed{% endif %}">
 
                 <div class="left">
 
-                    <input type="checkbox">
+                    <!-- Complete Button -->
+                    <a href="/complete/{{ todo[0] }}">
 
+                        {% if todo[2] == 1 %}
+
+                        <input type="checkbox" checked>
+
+                        {% else %}
+
+                        <input type="checkbox">
+
+                        {% endif %}
+
+                    </a>
+
+                    <!-- Task Text -->
                     <span>
                         {{ todo[1] }}
                     </span>
@@ -57,10 +76,13 @@
 
                 <div class="right">
 
+                    <!-- Delete Button -->
                     <a href="/delete/{{ todo[0] }}">
+
                         <button class="delete-btn">
                             🗑
                         </button>
+
                     </a>
 
                 </div>
@@ -73,26 +95,30 @@
 
     </div>
 
-    <!-- Animation Script -->
+    <!-- JavaScript -->
     <script>
-
-        function toggleTask(task) {
-            task.classList.toggle("completed");
-        }
 
         function searchTasks() {
 
-            let input = document.getElementById("searchInput").value.toLowerCase();
+            let input =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
 
-            let tasks = document.getElementsByClassName("task-card");
+            let tasks =
+                document.getElementsByClassName("task-card");
 
             for (let i = 0; i < tasks.length; i++) {
 
-                let text = tasks[i].innerText.toLowerCase();
+                let text =
+                    tasks[i].innerText.toLowerCase();
 
                 if (text.includes(input)) {
+
                     tasks[i].style.display = "";
+
                 } else {
+
                     tasks[i].style.display = "none";
                 }
             }
