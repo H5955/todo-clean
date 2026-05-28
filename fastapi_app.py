@@ -6,21 +6,22 @@ import sqlite3
 
 app = FastAPI()
 
-# Static files
+# Static Files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Templates
 templates = Jinja2Templates(directory="templates")
 
-# Database connection
+# Database
 conn = sqlite3.connect("todo.db", check_same_thread=False)
 cursor = conn.cursor()
 
-# Create table
+# Create Table
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS todos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task TEXT
+    task TEXT,
+    due_date TEXT
 )
 """)
 
@@ -35,13 +36,22 @@ try:
 except:
     pass
 
+# Add due_date column safely
+try:
+    cursor.execute(
+        "ALTER TABLE todos ADD COLUMN due_date TEXT"
+    )
+    conn.commit()
+except:
+    pass
 
-# Home page
+
+# Home Page
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
 
     cursor.execute(
-        "SELECT id, task, completed FROM todos"
+        "SELECT id, task, completed, due_date FROM todos"
     )
 
     todos = cursor.fetchall()
@@ -55,13 +65,16 @@ async def home(request: Request):
     )
 
 
-# Add task
+# Add Task
 @app.post("/add")
-async def add(task: str = Form(...)):
+async def add(
+    task: str = Form(...),
+    due_date: str = Form(...)
+):
 
     cursor.execute(
-        "INSERT INTO todos (task) VALUES (?)",
-        (task,)
+        "INSERT INTO todos (task, due_date) VALUES (?, ?)",
+        (task, due_date)
     )
 
     conn.commit()
@@ -72,7 +85,7 @@ async def add(task: str = Form(...)):
     )
 
 
-# Complete task
+# Complete Task
 @app.get("/complete/{todo_id}")
 async def complete(todo_id: int):
 
@@ -89,7 +102,7 @@ async def complete(todo_id: int):
     )
 
 
-# Delete task
+# Delete Task
 @app.get("/delete/{todo_id}")
 async def delete(todo_id: int):
 
