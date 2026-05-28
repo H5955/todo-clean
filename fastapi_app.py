@@ -6,11 +6,13 @@ import sqlite3
 
 app = FastAPI()
 
-# Static + Templates
+# Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates
 templates = Jinja2Templates(directory="templates")
 
-# Database
+# Database connection
 conn = sqlite3.connect("todo.db", check_same_thread=False)
 cursor = conn.cursor()
 
@@ -18,19 +20,29 @@ cursor = conn.cursor()
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS todos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task TEXT,
-    completed INTEGER DEFAULT 0
+    task TEXT
 )
 """)
 
 conn.commit()
+
+# Add completed column safely
+try:
+    cursor.execute(
+        "ALTER TABLE todos ADD COLUMN completed INTEGER DEFAULT 0"
+    )
+    conn.commit()
+except:
+    pass
 
 
 # Home page
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
 
-    cursor.execute("SELECT id, task, completed FROM todos")
+    cursor.execute(
+        "SELECT id, task, completed FROM todos"
+    )
 
     todos = cursor.fetchall()
 
@@ -54,7 +66,10 @@ async def add(task: str = Form(...)):
 
     conn.commit()
 
-    return RedirectResponse("/", status_code=303)
+    return RedirectResponse(
+        "/",
+        status_code=303
+    )
 
 
 # Complete task
@@ -68,7 +83,10 @@ async def complete(todo_id: int):
 
     conn.commit()
 
-    return RedirectResponse("/", status_code=303)
+    return RedirectResponse(
+        "/",
+        status_code=303
+    )
 
 
 # Delete task
@@ -82,4 +100,7 @@ async def delete(todo_id: int):
 
     conn.commit()
 
-    return RedirectResponse("/", status_code=303)
+    return RedirectResponse(
+        "/",
+        status_code=303
+    )
