@@ -24,20 +24,20 @@ CREATE TABLE IF NOT EXISTS todos (
 """)
 
 conn.commit()
-
 # Home page
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     cursor.execute("SELECT * FROM todos")
     todos = cursor.fetchall()
 
-    return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
-            "todos": todos
-        }
-    )
+    return 
+    templates.TemplateResponse(
+    "index.html",
+    {
+        "request": request,
+        "todos": todos
+    }
+)
 
 # Add task
 @app.post("/add")
